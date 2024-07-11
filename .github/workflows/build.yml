@@ -22,7 +22,6 @@ jobs:
         run: |
           ls
           cp cadmium-configs/config-arm64-debian config
-          cp kernel/config.arm64 kernel/.config
           sudo ./build-all arm64-debian.img 2G
        
       - name: Upload artifacts
