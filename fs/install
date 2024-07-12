@@ -163,12 +163,12 @@ if [ $INSTMED != this ]; then
 	done
 
 	case $opt3 in
-		1) FILESYSTEM="f2fs" ;; # install medium
-		2) FILESYSTEM="ext4" ;;
-		3) FILESYSTEM="btrfs" ;;
+		1) ROOTFILESYSTEM="f2fs" ;; # install medium
+		2) ROOTFILESYSTEM="ext4" ;;
+		3) ROOTFILESYSTEM="btrfs" ;;
 	esac
 
-	case "$FILESYSTEM" in
+	case "$ROOTFILESYSTEM" in
 		f2fs)
 			mkfs.f2fs -f $ROOTPART -t 0
 		;;

@@ -44,6 +44,9 @@ case "$FILESYSTEM" in
 	ext4)
 		mkfs.ext4 -F "$ROOTPART"
 	;;
+	btrfs)
+		mkfs.btrfs -f "$ROOTPART"
+	;;
 esac
 
 function umount_root() {
