@@ -10,6 +10,7 @@ FS_USERGROUPS="wheel,video,audio,input"
 # packages
 FS_PKGS_CD_BASE="f2fs-tools git base-devel networkmanager sudo vim cgpt parted wget arch-install-scripts"
 FS_PKGS_CD_UI_BASE=""
+$FS_PKG_BTRFS="btrfs-progs"
 # bootloader
 FS_PKGS_CD_BOOTFW_UBOOT="uboot-tools"
 FS_PKGS_CD_BOOTFW_DEPTHCHARGE="$FS_PKGS_CD_BOOTFW_UBOOT vboot-utils"

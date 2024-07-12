@@ -176,6 +176,7 @@ if [ $INSTMED != this ]; then
 			mkfs.ext4 -F $ROOTPART
 		;;
 		btrfs)
+			$FS_INST_PKG $FS_PKG_BTRFS
 			mkfs.btrfs -f $ROOTPART
 		;;
 	esac
