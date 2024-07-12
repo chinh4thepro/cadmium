@@ -133,12 +133,50 @@ if [ $INSTMED != this ]; then
 	sleep 1
 
 	dd if=/dev/disk/by-partlabel/SDKernelA of=/dev/disk/by-partlabel/MMCKernelA
+
+# if [$ROOTFS == "arch"] then
+# 		# encryption?
+# 		echo "Would you like to encrypt the root partition?"
+# 		echo "Y/N"
+
+# 		opt2=inv
+# 		until [ "$opt2" != "inv" ]; do
+# 			read -p ": " opt2
+# 		done
+
+# 		if [$opt2 == "y" | $opt2 == "Y"] then
+# 			cryptsetup luksFormat $ROOTPART
+# 			cryptsetup open $ROOTPART cryptcadmium
+# 			ROOTPART=/dev/mapper/cryptcadmium
+# 		fi
+# fi
+
+	# Choose the filesystem
+	echo "Which filesystem would you like to use for the root partition?"
+	echo "1: F2FS"
+	echo "2: EXT4"
+	echo "3: BTRFS"
+	
+	opt3=inv
+	until [ "$opt3" != "inv" ]; do
+		read -p ": " opt3
+	done
+
+	case $opt3 in
+		1) FILESYSTEM="f2fs" ;; # install medium
+		2) FILESYSTEM="ext4" ;;
+		3) FILESYSTEM="btrfs" ;;
+	esac
+
 	case "$FILESYSTEM" in
 		f2fs)
 			mkfs.f2fs -f $ROOTPART -t 0
 		;;
 		ext4)
 			mkfs.ext4 -F $ROOTPART
+		;;
+		btrfs)
+			mkfs.btrfs -f $ROOTPART
 		;;
 	esac
 
@@ -184,7 +222,7 @@ if [ "$FS_HAS_OOBE" = "false" ]; then
 		echo "Enter root password:"
 	done
 
-	read -p "Enter username, no spaces or big letters: "
+	read -p "Enter your username:  REMINDER: no spaces or capital letters: "
 	$chroot $DESTDIR useradd -G "$FS_USERGROUPS" -s /bin/bash -m $REPLY
 
 	echo "Enter user password:"
@@ -271,6 +309,9 @@ if [ "$FS_HAS_OOBE" = "false" ]; then
 					;;
 				kde)
 					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_KDE
+					;;
+				xfce)
+					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_XFCE
 					;;
 			esac
 			cp -r $CADMIUMROOT/fs/ucm/* $DESTDIR/usr/share/alsa/ucm2/conf.d/
