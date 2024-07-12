@@ -30,7 +30,7 @@ parted --script $DEVICE mklabel gpt # cgpt dislikes if i don't do that, so do th
 # now this is _real_ partition table
 # 73728 comes from: size of kernel partition(65536) + beginning of kernel partition(8192)
 # 139264 comes from: size of B kernel partition(65536) + beginning of B kernel partition(73728)
-if [ -n "$2"]; then
+if [ -n "$2" ]; then
 	rm $1; 
 fi
 cgpt create $1
