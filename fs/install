@@ -171,17 +171,28 @@ if [ $INSTMED != this ]; then
 	case "$ROOTFILESYSTEM" in
 		f2fs)
 			mkfs.f2fs -f $ROOTPART -t 0
+			mount -o compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime $ROOTPART /mnt
 		;;
 		ext4)
 			mkfs.ext4 -F $ROOTPART
+			tune2fs -O fast_commit $ROOTPART
+			mount $ROOTPART /mnt
 		;;
 		btrfs)
 			$FS_INST_PKG $FS_PKG_BTRFS
 			mkfs.btrfs -f $ROOTPART
+			mount $ROOTPART /mnt
+			btrfs subvolume create /mnt/.system
+			btrfs subvolume create /mnt/.system/root
+			btrfs subvolume create /mnt/.system/home
+			btrfs subvolume create /mnt/.snapshots
+			umount /mnt
+			mount -o compress=zstd:6,subvol=.system/root $ROOTPART /mnt
+			mount --mkdir -o compress=zstd:6,subvol=.system/home $ROOTPART /mnt/home
+			mount --mkdir -o compress=zstd:6,subvol=.snapshots $ROOTPART /mnt/.snapshots
 		;;
 	esac
 
-	mount $ROOTPART /mnt
 	DESTDIR=/mnt
 
 	if [ "$ROOTFS" = "arch" ]; then
@@ -312,7 +323,7 @@ if [ "$FS_HAS_OOBE" = "false" ]; then
 					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_KDE
 					;;
 				xfce)
-					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_XFCE
+					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_XFCE $FS_PKGS_CD_UI_LIGHTDM_GTK
 					;;
 			esac
 			cp -r $CADMIUMROOT/fs/ucm/* $DESTDIR/usr/share/alsa/ucm2/conf.d/
