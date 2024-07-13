@@ -1,36 +1,71 @@
 #!/bin/bash
 CADMIUMROOT="$(dirname $(realpath $0))"
 
-source "$CADMIUMROOT/flavor/$FLAV"
 
-# Choose the filesystem
-echo "Which RootFS would you like to build?"
-echo "1: Arch"
-echo "2: Debian"
-echo "3: Void"
-echo "4: Void-Musl"
+if [ $ARCH == "" ]; 
+then
+	echo "Which architecture would you like to build for?"
+	echo "1: arm"
+	echo "2: arm64"
+	
+	arc=inv
+	until [ "$arc" != "inv" ]; do
+		read -p ": " arc
+	done
+	case $arc in 
+		1) ARCHITECTURE="arm";;
+		2) ARCHITECTURE="arm64";;
+	esac
+fi
 
-rfs=inv
-until [ "$rfs" != "inv" ]; do
-	read -p ": " rfs
-done
-
-case $rfs in
-	1) 
-		source $CADMIUMROOT/cadmium-configs/$ARCH/config-arch
+case $ARCHITECTURE in 
+	arm) 
+		ARCH="arm";
+		FLAV="arm32-chromebook"
 	;;
-	2)
-		source $CADMIUMROOT/cadmium-configs/$ARCH/config-debian
+	arm64) 
+		ARCH="arm64";
+		FLAV="arm64-chromebook"
 	;;
-	3) 
-		source $CADMIUMROOT/cadmium-configs/$ARCH/config-void
-	;;
-	4)
-		source $CADMIUMROOT/cadmium-configs/$ARCH/config-void-musl
 esac
 
-source "$CADMIUMROOT/config"
+source "$CADMIUMROOT/flavor/$FLAV"
 
+if [ $RFILESYSTEM == "" ]
+then
+	# Choose the filesystem
+	echo "Which RootFS would you like to build?"
+	echo "1: Arch"
+	echo "2: Debian"
+	echo "3: Void"
+	echo "4: Void-Musl"
+
+	rfs=inv
+	until [ "$rfs" != "inv" ]; do
+		read -p ": " rfs
+	done
+
+	case $rfs in 
+		1) RFILESYSTEM="arch";;
+		2) RFILESYSTEM="debian";;
+		3) RFILESYSTEM="void";;
+		4) RFILESYSTEM="void-musl";;
+	esac
+fi
+
+case $RFILESYSTEM in
+	arch) 
+		source $CADMIUMROOT/cadmium-configs/$ARCH/config-arch
+	;;
+	debian)
+		source $CADMIUMROOT/cadmium-configs/$ARCH/config-debian
+	;;
+	void) 
+		source $CADMIUMROOT/cadmium-configs/$ARCH/config-void
+	;;
+	void-musl)
+		source $CADMIUMROOT/cadmium-configs/$ARCH/config-void-musl
+esac
 
 set -x
 set -e
