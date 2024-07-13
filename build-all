@@ -2,7 +2,7 @@
 CADMIUMROOT="$(dirname $(realpath $0))"
 
 
-if [ $ARCH == "" ]; 
+if [ "$ARCHITECTURE" = "" ]; 
 then
 	echo "Which architecture would you like to build for?"
 	echo "1: arm"
@@ -31,7 +31,7 @@ esac
 
 source "$CADMIUMROOT/flavor/$FLAV"
 
-if [ $RFILESYSTEM == "" ]
+if [ "$RFILESYSTEM" = "" ]
 then
 	# Choose the filesystem
 	echo "Which RootFS would you like to build?"
