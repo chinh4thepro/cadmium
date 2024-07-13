@@ -163,7 +163,7 @@ if [ $INSTMED != this ]; then
 	done
 
 	case $opt3 in
-		1) ROOTFILESYSTEM="f2fs" ;; # install medium
+		1) ROOTFILESYSTEM="f2fs" ;;
 		2) ROOTFILESYSTEM="ext4" ;;
 		3) ROOTFILESYSTEM="btrfs" ;;
 	esac

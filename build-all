@@ -1,8 +1,36 @@
 #!/bin/bash
 CADMIUMROOT="$(dirname $(realpath $0))"
 
-source "$CADMIUMROOT/config"
 source "$CADMIUMROOT/flavor/$FLAV"
+
+# Choose the filesystem
+echo "Which RootFS would you like to build?"
+echo "1: Arch"
+echo "2: Debian"
+echo "3: Void"
+echo "4: Void-Musl"
+
+rfs=inv
+until [ "$rfs" != "inv" ]; do
+	read -p ": " rfs
+done
+
+case $rfs in
+	1) 
+		source $CADMIUMROOT/cadmium-configs/$ARCH/config-arch
+	;;
+	2)
+		source $CADMIUMROOT/cadmium-configs/$ARCH/config-debian
+	;;
+	3) 
+		source $CADMIUMROOT/cadmium-configs/$ARCH/config-void
+	;;
+	4)
+		source $CADMIUMROOT/cadmium-configs/$ARCH/config-void-musl
+esac
+
+source "$CADMIUMROOT/config"
+
 
 set -x
 set -e
