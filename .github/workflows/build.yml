@@ -14,10 +14,6 @@ jobs:
           sudo apt build-dep linux
           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
           
-      - name: remove existing config
-        run: |
-          rm config
-          
       - name: build arm64-debian
         run: |
           ls
@@ -43,10 +39,6 @@ jobs:
           sudo apt build-dep linux
           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4   
           
-      - name: remove existing config
-        run: |
-          rm config
-          
       - name: build arm32-debian
         run: |
           ls
@@ -70,10 +62,6 @@ jobs:
           sudo apt install -y libunwind-dev
           sudo apt build-dep linux
           sudo apt install arch-install-scripts gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
-          
-      - name: remove existing config
-        run: |
-          rm config
           
       - name: build arm64-arch
         run: |
@@ -99,10 +87,6 @@ jobs:
           sudo apt build-dep linux
           sudo apt install arch-install-scripts gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
           
-      - name: remove existing config
-        run: |
-          rm config
-          
       - name: build arm32-arch
         run: |
           ls
@@ -126,10 +110,6 @@ jobs:
           sudo apt install -y libunwind-dev
           sudo apt build-dep linux
           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
-         
-     - name: remove existing config
-       run: |
-         rm config
          
      - name: build arm64-void
        run: |
@@ -155,10 +135,6 @@ jobs:
           sudo apt build-dep linux
           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
          
-     - name: remove existing config
-       run: |
-         rm config
-         
      - name: build arm32-void
        run: |
          ls
@@ -183,10 +159,6 @@ jobs:
           sudo apt build-dep linux
           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
          
-     - name: remove existing config
-       run: |
-         rm config
-         
      - name: build arm64-void-musl
        run: |
          ls
@@ -210,10 +182,6 @@ jobs:
           sudo apt install -y libunwind-dev
           sudo apt build-dep linux
           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
-         
-     - name: remove existing config
-       run: |
-         rm config
          
      - name: build arm32-void-musl
        run: |
