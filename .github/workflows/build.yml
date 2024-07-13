@@ -16,6 +16,8 @@ jobs:
           
       - name: build arm64-debian
         run: |
+          export RFILESYSTEM=debian
+          export ARCH=arm64
           ls
           cp cadmium-configs/arm64/config-debian config
           sudo ./build-all arm64-debian.img 2G
@@ -41,6 +43,8 @@ jobs:
           
       - name: build arm32-debian
         run: |
+          export RFILESYSTEM=debian
+          export ARCH=arm
           ls
           cp cadmium-configs/arm/config-debian config
           sudo ./build-all arm32-debian.img 2G
@@ -65,6 +69,8 @@ jobs:
           
       - name: build arm64-arch
         run: |
+          export RFILESYSTEM=arch
+          export ARCH=arm64
           ls
           cp cadmium-configs/arm64/config-arch config
           sudo ./build-all arm64-arch.img 3G
@@ -89,6 +95,8 @@ jobs:
           
       - name: build arm32-arch
         run: |
+          export RFILESYSTEM=arch
+          export ARCH=arm
           ls
           cp cadmium-configs/arm/config-arch config
           sudo ./build-all arm32-arch.img 3G
@@ -113,6 +121,8 @@ jobs:
          
      - name: build arm64-void
        run: |
+         export RFILESYSTEM=void
+         export ARCH=arm64
          ls
          cp cadmium-configs/arm64/config-void config
          sudo ./build-all arm64-void.img 3G
@@ -137,6 +147,8 @@ jobs:
          
      - name: build arm32-void
        run: |
+         export RFILESYSTEM=void
+         export ARCH=arm
          ls
          cp cadmium-configs/arm/config-void config
          sudo ./build-all arm32-void.img 3G
@@ -161,6 +173,8 @@ jobs:
          
      - name: build arm64-void-musl
        run: |
+         export RFILESYSTEM=void-musl
+         export ARCH=arm64
          ls
          cp cadmium-configs/arm64/config-void-musl config
          sudo ./build-all arm64-void-musl.img 3G
@@ -185,6 +199,8 @@ jobs:
          
      - name: build arm32-void-musl
        run: |
+         export RFILESYSTEM=void-musl
+         export ARCH=arm
          ls
          cp cadmium-configs/arm/config-void-musl config
          sudo ./build-all arm32-void-musl.img 3G
