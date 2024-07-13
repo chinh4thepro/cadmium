@@ -323,7 +323,9 @@ if [ "$FS_HAS_OOBE" = "false" ]; then
 					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_KDE
 					;;
 				xfce)
+					# TODO: add xfce packages to non-arch distros info files
 					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_XFCE $FS_PKGS_CD_UI_LIGHTDM_GTK
+					# TODO: use sed to edit the lightdm config to enable the greeter 
 					;;
 			esac
 			cp -r $CADMIUMROOT/fs/ucm/* $DESTDIR/usr/share/alsa/ucm2/conf.d/
