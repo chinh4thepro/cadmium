@@ -58,7 +58,6 @@ cp -r "$CADMIUMROOT/fs/install" "$DESTDIR/root/install"
 
 # TODO: autodetect/leave choice to user
 cp -r "$CADMIUMROOT/cadmium-configs/$ARCH/config-$RFILESYSTEM" "$DESTDIR/CdFiles/config"
-# echo "export ARCH_DEB=$ARCH_DEB" >> "$DESTDIR/CdFiles/config"
 # echo "export ARCH_ALARM=$ARCH_ALARM" >> "$DESTDIR/CdFiles/config"
 
 

@@ -5,6 +5,7 @@
 # One of: arm64-chromebook, arm32-chromebook
 if [ "$RELEASE" = "" ]; then
 	FLAV=arm64-chromebook
+	ARCH_ALARM=aarch64
 else
 	FLAV=$RELEASE
 fi
