@@ -1,7 +1,7 @@
 name: Build cadmium images
 on: [push, workflow_dispatch]
 env:
-  ROOTFILESYSTEM: f2fs
+  ROOTFILESYSTEM: ext4
 jobs:
   build-debian-arm-64:
     runs-on: ubuntu-latest 
