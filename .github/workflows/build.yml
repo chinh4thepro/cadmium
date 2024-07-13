@@ -15,9 +15,12 @@ jobs:
           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
           
       - name: build arm64-debian
+        
+        env: 
+          RFILESYSTEM: debian
+          ARCHITECTURE: arm64
+          
         run: |
-          export RFILESYSTEM=debian
-          export ARCHITECTURE=arm64
           ls
           cp cadmium-configs/arm64/config-debian config
           sudo ./build-all arm64-debian.img 2G
@@ -42,9 +45,12 @@ jobs:
           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4   
           
       - name: build arm32-debian
+        
+        env: 
+          RFILESYSTEM: debian
+          ARCHITECTURE: arm
+          
         run: |
-          export RFILESYSTEM=debian
-          export ARCHITECTURE=arm
           ls
           cp cadmium-configs/arm/config-debian config
           sudo ./build-all arm32-debian.img 2G
@@ -68,9 +74,12 @@ jobs:
           sudo apt install arch-install-scripts gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
           
       - name: build arm64-arch
+
+        env: 
+          RFILESYSTEM: arch
+          ARCHITECTURE: arm64
+      
         run: |
-          export RFILESYSTEM=arch
-          export ARCHITECTURE=arm64
           ls
           cp cadmium-configs/arm64/config-arch config
           sudo ./build-all arm64-arch.img 3G
@@ -94,9 +103,12 @@ jobs:
           sudo apt install arch-install-scripts gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
           
       - name: build arm32-arch
+        
+        env: 
+          RFILESYSTEM: arch
+          ARCHITECTURE: arm
+          
         run: |
-          export RFILESYSTEM=arch
-          export ARCHITECTURE=arm
           ls
           cp cadmium-configs/arm/config-arch config
           sudo ./build-all arm32-arch.img 3G
@@ -120,9 +132,12 @@ jobs:
           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
          
      - name: build arm64-void
+
+       env: 
+          RFILESYSTEM: void
+          ARCHITECTURE: arm64
+     
        run: |
-         export RFILESYSTEM=void
-         export ARCHITECTURE=arm64
          ls
          cp cadmium-configs/arm64/config-void config
          sudo ./build-all arm64-void.img 3G
@@ -146,9 +161,12 @@ jobs:
           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
          
      - name: build arm32-void
+
+       env: 
+          RFILESYSTEM: void
+          ARCHITECTURE: arm
+     
        run: |
-         export RFILESYSTEM=void
-         export ARCHITECTURE=arm
          ls
          cp cadmium-configs/arm/config-void config
          sudo ./build-all arm32-void.img 3G
@@ -172,9 +190,12 @@ jobs:
           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
          
      - name: build arm64-void-musl
+       
+       env: 
+          RFILESYSTEM: void-musl
+          ARCHITECTURE: arm64
+       
        run: |
-         export RFILESYSTEM=void-musl
-         export ARCHITECTURE=arm64
          ls
          cp cadmium-configs/arm64/config-void-musl config
          sudo ./build-all arm64-void-musl.img 3G
@@ -198,9 +219,12 @@ jobs:
           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
          
      - name: build arm32-void-musl
+
+       env: 
+          RFILESYSTEM: void-musl
+          ARCHITECTURE: arm
+     
        run: |
-         export RFILESYSTEM=void-musl
-         export ARCHITECTURE=arm
          ls
          cp cadmium-configs/arm/config-void-musl config
          sudo ./build-all arm32-void-musl.img 3G
