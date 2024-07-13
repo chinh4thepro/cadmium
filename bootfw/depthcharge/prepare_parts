@@ -38,8 +38,9 @@ sync
 
 partx -a $DEVICE >/dev/null 2>&1 || true # fails if something else added partitions
 sync
-
-echo "Which filesystem would you like to use for cadmium?"
+if [ $ROOTFILESYSTEM == "" ]
+then
+	echo "Which filesystem would you like to use for cadmium?"
 	echo "1: F2FS"
 	echo "2: EXT4"
 	echo "3: BTRFS"
@@ -54,16 +55,17 @@ echo "Which filesystem would you like to use for cadmium?"
 		2) ROOTFILESYSTEM="ext4" ;;
 		3) ROOTFILESYSTEM="btrfs" ;;
 	esac
+fi
 
-	case "$ROOTFILESYSTEM" in
-		f2fs)
-			mkfs.f2fs -f $ROOTPART
-		;;
-		ext4)
-			mkfs.ext4 -F $ROOTPART
-			tune2fs -O fast_commit $ROOTPART
-		;;
-		btrfs)
-			mkfs.btrfs -f $ROOTPART
-		;;
-	esac
+case "$ROOTFILESYSTEM" in
+	f2fs)
+		mkfs.f2fs -f $ROOTPART
+	;;
+	ext4)
+		mkfs.ext4 -F $ROOTPART
+		tune2fs -O fast_commit $ROOTPART
+	;;
+	btrfs)
+		mkfs.btrfs -f $ROOTPART
+	;;
+esac
