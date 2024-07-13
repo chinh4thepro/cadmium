@@ -34,7 +34,7 @@ jobs:
   build-debian-arm-32:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: set up environment
         run: |
           cd $GITHUB_WORKSPACE
@@ -55,7 +55,7 @@ jobs:
           cp cadmium-configs/arm/config-debian config
           sudo -E ./build-all arm32-debian.img 2G
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2.2.2
+        uses: actions/upload-artifact@v4
         with:
           name: arm32-debian
           path: arm32-debian.img
@@ -63,7 +63,7 @@ jobs:
   build-arch-arm-64:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: set up environment
         run: |
           cd $GITHUB_WORKSPACE
@@ -84,7 +84,7 @@ jobs:
           cp cadmium-configs/arm64/config-arch config
           sudo -E ./build-all arm64-arch.img 3G
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2.2.2
+        uses: actions/upload-artifact@v4
         with:
           name: arm64-arch
           path: arm64-arch.img
@@ -92,7 +92,7 @@ jobs:
   build-arch-arm-32:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: set up environment
         run: |
           cd $GITHUB_WORKSPACE
@@ -113,7 +113,7 @@ jobs:
           cp cadmium-configs/arm/config-arch config
           sudo -E ./build-all arm32-arch.img 3G
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2.2.2
+        uses: actions/upload-artifact@v4
         with:
           name: arm32-arch
           path: arm32-arch.img   
@@ -121,7 +121,7 @@ jobs:
   build-void-arm-64:
    runs-on: ubuntu-latest
    steps:
-     - uses: actions/checkout@v2
+     - uses: actions/checkout@v4
      - name: set up environment
        run: |
          cd $GITHUB_WORKSPACE
@@ -142,7 +142,7 @@ jobs:
          cp cadmium-configs/arm64/config-void config
          sudo -E ./build-all arm64-void.img 3G
      - name: Upload artifacts
-       uses: actions/upload-artifact@v2.2.2
+       uses: actions/upload-artifact@v4
        with:
          name: arm64-void
          path: arm64-void.img    
@@ -150,7 +150,7 @@ jobs:
   build-void-arm-32:
    runs-on: ubuntu-latest
    steps:
-     - uses: actions/checkout@v2
+     - uses: actions/checkout@v4
      - name: set up environment
        run: |
          cd $GITHUB_WORKSPACE
@@ -171,7 +171,7 @@ jobs:
          cp cadmium-configs/arm/config-void config
          sudo -E ./build-all arm32-void.img 3G
      - name: Upload artifacts
-       uses: actions/upload-artifact@v2.2.2
+       uses: actions/upload-artifact@v4
        with:
          name: arm32-void
          path: arm32-void.img
@@ -179,7 +179,7 @@ jobs:
   build-void-musl-arm-64:
    runs-on: ubuntu-latest
    steps:
-     - uses: actions/checkout@v2
+     - uses: actions/checkout@v4
      - name: set up environment
        run: |
          cd $GITHUB_WORKSPACE
@@ -200,7 +200,7 @@ jobs:
          cp cadmium-configs/arm64/config-void-musl config
          sudo -E ./build-all arm64-void-musl.img 3G
      - name: Upload artifacts
-       uses: actions/upload-artifact@v2.2.2
+       uses: actions/upload-artifact@v4
        with:
          name: arm64-void-musl
          path: arm64-void-musl.img    
@@ -208,7 +208,7 @@ jobs:
   build-void-musl-arm-32:
    runs-on: ubuntu-latest
    steps:
-     - uses: actions/checkout@v2
+     - uses: actions/checkout@v4
      - name: set up environment
        run: |
          cd $GITHUB_WORKSPACE
@@ -229,7 +229,7 @@ jobs:
          cp cadmium-configs/arm/config-void-musl config
          sudo -E ./build-all arm32-void-musl.img 3G
      - name: Upload artifacts
-       uses: actions/upload-artifact@v2.2.2
+       uses: actions/upload-artifact@v4
        with:
          name: arm32-void-musl
          path: arm32-void-musl.img   
