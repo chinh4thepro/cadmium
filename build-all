@@ -103,19 +103,6 @@ source "$CADMIUMROOT/bootfw/$BOOTFW/prepare_parts"
 
 "$CADMIUMROOT/kernel/build"
 
-# TODO: move to bootfw/prepare_parts
-case "$FILESYSTEM" in
-	f2fs)
-		mkfs.f2fs -f "$ROOTPART"
-	;;
-	ext4)
-		mkfs.ext4 -F "$ROOTPART"
-	;;
-	btrfs)
-		mkfs.btrfs -f "$ROOTPART"
-	;;
-esac
-
 function umount_root() {
 	echo "Cleaning up..."
 	umount "$CADMIUMROOT/tmp/root"
