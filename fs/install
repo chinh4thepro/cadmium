@@ -87,8 +87,8 @@ nmtui connect
 # try finding emmc
 MMCDEV="$(ls /dev/mmcblk* | grep -F boot0 | sed 's/boot0//')"
 
-. $CADMIUMROOT/config
-. $CADMIUMROOT/fs/$ROOTFS/info
+source $CADMIUMROOT/config
+source $CADMIUMROOT/fs/$ROOTFS/info
 
 # try finding out bootloader
 BOOTFW=unknown

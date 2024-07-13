@@ -3,7 +3,7 @@ CADMIUMROOT=$(dirname $(dirname $(realpath $0)))
 
 set -e
 
-[ -z "$TARGET" ] && source $CADMIUMROOT/config
+[ -z "$TARGET" ] && source $CADMIUMROOT/cadmium-configs/$ARCH/config-$RFILESYSTEM
 
 source $CADMIUMROOT/flavor/$FLAV
 

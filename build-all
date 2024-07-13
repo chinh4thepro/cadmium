@@ -20,12 +20,12 @@ fi
 
 case $ARCHITECTURE in 
 	arm) 
-		ARCH="arm";
-		FLAV="arm32-chromebook"
+		export ARCH="arm";
+		export FLAV="arm32-chromebook"
 	;;
 	arm64) 
-		ARCH="arm64";
-		FLAV="arm64-chromebook"
+		export ARCH="arm64";
+		export FLAV="arm64-chromebook"
 	;;
 esac
 
@@ -55,16 +55,21 @@ fi
 
 case $RFILESYSTEM in
 	arch) 
-		source $CADMIUMROOT/cadmium-configs/$ARCH/config-arch
+		source $CADMIUMROOT/cadmium-configs/$ARCH/config-arch;
+		export RFILESYSTEM="arch"
 	;;
 	debian)
-		source $CADMIUMROOT/cadmium-configs/$ARCH/config-debian
+		source $CADMIUMROOT/cadmium-configs/$ARCH/config-debian;
+		export RFILESYSTEM="debian"
 	;;
 	void) 
-		source $CADMIUMROOT/cadmium-configs/$ARCH/config-void
+		source $CADMIUMROOT/cadmium-configs/$ARCH/config-void;
+		export RFILESYSTEM="void"
 	;;
 	void-musl)
-		source $CADMIUMROOT/cadmium-configs/$ARCH/config-void-musl
+		source $CADMIUMROOT/cadmium-configs/$ARCH/config-void-musl;
+		export RFILESYSTEM="void-musl"
+	;;
 esac
 
 set -x
