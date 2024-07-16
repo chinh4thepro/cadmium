@@ -262,12 +262,20 @@ if [ "$FS_HAS_OOBE" = "false" ]; then
 			$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_BASE
 			case $UI_CHOICE in
 				phosh)
-					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_PHOSH
-					# TODO: make it more init agnostic (ie. runit, dinit, etc.)
-					if systemctl; then
-					   $chroot $DESTDIR systemctl enable phosh
+				    if [ "$ROOTFS" != "gentoo" ]; then
+						$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_PHOSH
+					fi
+					# TODO: make it more init agnostic (ie. openrc, runit, dinit, etc.)
+					if [ "$ROOTFS" = "gentoo" ]; then
+					    $chroot $DESTDIR eselect repository enable guru
+						$chroot $DESTDIR emaint sync -R guru
+						$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_PHOSH
+						$chroot $DESTDIR rc-update enable display-manager default
+						$chroot $DESTDIR sed -i 's/xdm/sddm/' $DESTDIR/etc/conf.d/display-manager
+					fi
+
 					else
-					   $chroot $DESTDIR rc-update enable phosh default
+					    $chroot $DESTDIR systemctl enable phosh
 					fi
 					echo "Input a digit-only user password:"
 					$chroot $DESTDIR passwd $USERNAME
@@ -322,14 +330,14 @@ if [ "$FS_HAS_OOBE" = "false" ]; then
 					;;
 				gnome)
 					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_GNOME
-					if [ $ROOTFS = "gentoo" ]; then
+					if [ "$ROOTFS" = "gentoo" ]; then
 					   $chroot $DESTDIR rc-update enable display-manager default
 					   $chroot $DESTDIR sed -i 's/xdm/gdm/' $DESTDIR/etc/conf.d/display-manager
 					fi
 					;;
 				kde)
 					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_KDE
-					if [ $ROOTFS = "gentoo" ]; then
+					if [ "$ROOTFS" = "gentoo" ]; then
 					   $chroot $DESTDIR rc-update enable display-manager default
 					   $chroot $DESTDIR sed -i 's/xdm/sddm/' $DESTDIR/etc/conf.d/display-manager
 					fi
@@ -337,7 +345,7 @@ if [ "$FS_HAS_OOBE" = "false" ]; then
 				xfce)
 					# TODO: add xfce packages to non-arch distros info files
 					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_XFCE $FS_PKGS_CD_UI_LIGHTDM_GTK
-					if [ $ROOTFS = "gentoo" ]; then
+					if [ "$ROOTFS" = "gentoo" ]; then
 					   $chroot $DESTDIR rc-update enable display-manager default
 					   $chroot $DESTDIR sed -i 's/xdm/lightdm/' $DESTDIR/etc/conf.d/display-manager
 					fi
