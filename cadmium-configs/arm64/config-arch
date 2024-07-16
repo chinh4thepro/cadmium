@@ -11,17 +11,8 @@ else
 fi
 
 # RootFS type
-<<<<<<< HEAD:cadmium-configs/arm64/config-arch
 # One of: debian, void, void-musl, arch
 ROOTFS=arch
-=======
-# One of: debian, void, void-musl, arch, gentoo
-ROOTFS=debian
-
-# FS type
-# f2fs, ext4
-FILESYSTEM=f2fs
->>>>>>> gentoo-rootfs:config
 
 # Debian and debian-ish distro suite (Not for arch)
 # sid, testing, stable
