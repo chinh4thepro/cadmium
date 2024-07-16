@@ -7,8 +7,6 @@ DESTDIR="$1"
 
 . $CADMIUMROOT/config
 
-THREADS="$(expr $(nproc) / 2)"
-
 GENTOOVER=$(sed 's|/[^/]*$||' <<< $(head -3 <<< $(curl --silent http://www.gtlib.gatech.edu/pub/gentoo/releases/$ARCH/autobuilds/latest-stage3-$ARCH_GENTOO-openrc.txt) | tail -1))
 
 mkdir -p "$CADMIUMROOT/tmp"
@@ -33,12 +31,8 @@ sudo mount --make-slave $DESTDIR/run
 $chroot $DESTDIR $qemu /usr/bin/emerge-webrsync
 $chroot $DESTDIR $qemu /usr/bin/emerge --sync
 
-echo 'FEATURES="-pid-sandbox candy parallel-install parallel-fetch"' >> $DESTDIR/etc/portage/make.conf
-echo 'ACCEPT_LICENSE="*"' >> $DESTDIR/etc/portage/make.conf
-echo "ACCEPT_KEYWORDS=\"~$ARCH"\" >> $DESTDIR/etc/portage/make.conf
-echo "MAKEOPTS=\"-j$THREADS"\"
-echo "EMERGE_DEFAULT_OPTS=\"--with-bdeps y --complete-graph y"\"
-echo 'USE="-gtk-doc -doc -consolekit -systemd elogind dbus pulseaudio opengl vulkan X"' >> $DESTDIR/etc/portage/make.conf
+echo '# Added by cadmium due how we build the image and also for convience' >> $DESTDIR/etc/portage/make.conf
+echo 'FEATURES="-pid-sandbox candy parallel-fetch"' >> $DESTDIR/etc/portage/make.conf
 
 $chroot $DESTDIR $qemu /usr/bin/emerge -uvDN @world
 
