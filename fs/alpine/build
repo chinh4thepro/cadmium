@@ -17,7 +17,7 @@ if [ ! -f "$CADMIUMROOT/tmp/alpine-minirootfs-$ALPINEVER-$ARCH_ALPINE.tar.gz" ];
 fi
 tar xfp $CADMIUMROOT/tmp/alpine-minirootfs-$ALPINEVER-$ARCH_ALPINE.tar.gz -C $DESTDIR
 
-$chroot $DESTDIR $qemu /sbin/apk add openrc
+$chroot $DESTDIR $qemu /sbin/apk add alpine-base
 $chroot $DESTDIR $qemu /sbin/apk add networkmanager networkmanager-cli networkmanager-tui networkmanager-wifi
 $chroot $DESTDIR $qemu setup-devd udev
 $chroot $DESTDIR $qemu rc-update add networkmanager default
