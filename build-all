@@ -39,6 +39,7 @@ then
 	echo "2: Debian"
 	echo "3: Void"
 	echo "4: Void-Musl"
+	echo "5: Gentoo"
 
 	rfs=inv
 	until [ "$rfs" != "inv" ]; do
@@ -50,6 +51,7 @@ then
 		2) RFILESYSTEM="debian";;
 		3) RFILESYSTEM="void";;
 		4) RFILESYSTEM="void-musl";;
+		5) RFILESYSTEM="gentoo";;
 	esac
 fi
 
@@ -69,6 +71,10 @@ case $RFILESYSTEM in
 	void-musl)
 		source $CADMIUMROOT/cadmium-configs/$ARCH/config-void-musl;
 		export RFILESYSTEM="void-musl"
+	;;
+	gentoo)
+		source $CADMIUMROOT/cadmium-configs/$ARCH/config-gentoo;
+		export RFILESYSTEM="gentoo"
 	;;
 esac
 
