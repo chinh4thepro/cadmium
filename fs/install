@@ -117,7 +117,7 @@ if [ $INSTMED != this ]; then
 			parted --script $MMCDEV mklabel gpt >/dev/null 2>&1 || true # ???
 			cgpt create $MMCDEV
 			cgpt add -i 1 -t kernel   -b $(expr 8192 + $EMMC_OFFSET)          -s 65536 -l MMCKernelA -S 1 -T 2 -P 10  ${MMCDEV}
-			cgpt add -i 2 -t kernel   -b $(expr 73728 + $EMMC_OFFSET)         -s 65536 -l MMCKernelB -S 0 -T 2 -P 5   ${MMCDEV}	
+			cgpt add -i 2 -t kernel   -b $(expr 73728 + $EMMC_OFFSET)         -s 65536 -l MMCKernelB -S 0 -T 2 -P 5   ${MMCDEV}
 			cgpt add -i 3 -t data     -b $(expr 139264 + $EMMC_OFFSET)        -s $(expr $(cgpt show ${MMCDEV} | grep 'Sec GPT table' | awk '{print $1}') - $(expr 139264 + $EMMC_OFFSET)) -l Root ${MMCDEV}
 			# i sure do love confusing one-liners
 
@@ -156,7 +156,7 @@ if [ $INSTMED != this ]; then
 	echo "1: F2FS"
 	echo "2: EXT4"
 	echo "3: BTRFS"
-	
+
 	opt3=inv
 	until [ "$opt3" != "inv" ]; do
 		read -p ": " opt3
@@ -262,9 +262,21 @@ if [ "$FS_HAS_OOBE" = "false" ]; then
 			$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_BASE
 			case $UI_CHOICE in
 				phosh)
-					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_PHOSH
-					# TODO: non-systemd rootfses
-					$chroot $DESTDIR systemctl enable phosh
+				    if [ "$ROOTFS" != "gentoo" ]; then
+						$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_PHOSH
+					fi
+					# TODO: make it more init agnostic (ie. openrc, runit, dinit, etc.)
+					if [ "$ROOTFS" = "gentoo" ]; then
+					    $chroot $DESTDIR eselect repository enable guru
+						$chroot $DESTDIR emaint sync -R guru
+						$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_PHOSH
+						$chroot $DESTDIR rc-update enable display-manager default
+						$chroot $DESTDIR sed -i 's/xdm/sddm/' $DESTDIR/etc/conf.d/display-manager
+					fi
+
+					else
+					    $chroot $DESTDIR systemctl enable phosh
+					fi
 					echo "Input a digit-only user password:"
 					$chroot $DESTDIR passwd $USERNAME
 					;;
@@ -318,14 +330,26 @@ if [ "$FS_HAS_OOBE" = "false" ]; then
 					;;
 				gnome)
 					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_GNOME
+					if [ "$ROOTFS" = "gentoo" ]; then
+					   $chroot $DESTDIR rc-update enable display-manager default
+					   $chroot $DESTDIR sed -i 's/xdm/gdm/' $DESTDIR/etc/conf.d/display-manager
+					fi
 					;;
 				kde)
 					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_KDE
+					if [ "$ROOTFS" = "gentoo" ]; then
+					   $chroot $DESTDIR rc-update enable display-manager default
+					   $chroot $DESTDIR sed -i 's/xdm/sddm/' $DESTDIR/etc/conf.d/display-manager
+					fi
 					;;
 				xfce)
 					# TODO: add xfce packages to non-arch distros info files
 					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_XFCE $FS_PKGS_CD_UI_LIGHTDM_GTK
-					# TODO: use sed to edit the lightdm config to enable the greeter 
+					if [ "$ROOTFS" = "gentoo" ]; then
+					   $chroot $DESTDIR rc-update enable display-manager default
+					   $chroot $DESTDIR sed -i 's/xdm/lightdm/' $DESTDIR/etc/conf.d/display-manager
+					fi
+					$chroot $DESTDIR sed -i 's/\#greeter-session=example-gtk-gnome/greeter-session=lightdm-gtk-greeter/' $DESTDIR/etc/lightdm/lightdm.conf
 					;;
 			esac
 			cp -r $CADMIUMROOT/fs/ucm/* $DESTDIR/usr/share/alsa/ucm2/conf.d/
