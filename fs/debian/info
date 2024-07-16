@@ -10,7 +10,8 @@ FS_USERGROUPS="sudo,video,audio,render"
 
 # packages:
 FS_PKGS_CD_BASE="vim network-manager debootstrap parted f2fs-tools libudev-dev build-essential git kmscube weston ssh htop"
-FS_PKGS_CD_UI_BASE="firefox pulseaudio alsa-utils"
+FS_PKGS_CD_UI_BASE="firefox-esr pulseaudio alsa-utils"
+FS_PKG_BTRFS="btrfs-progs"
 
 # bootloader
 FS_PKGS_CD_BOOTFW_UBOOT="u-boot-tools"
@@ -22,3 +23,5 @@ FS_PKGS_CD_UI_GNOME="gnome gdm3 xwayland"
 FS_PKGS_CD_UI_KDE="plasma-desktop kde-full krusader konsole plasma-nm muon kwin-x11 kwin-wayland sddm kinfocenter systemsettings powerdevil kde-config-sddm kde-config-screenlocker kde-config-gtk-style partitionmanager libkf5su-bin"
 FS_PKGS_CD_UI_PHOSH="xfce4-terminal phosh phosh-tablet xwayland"
 FS_PKGS_CD_UI_SWAY="sway i3status xfce4-terminal dmenu xwayland grim slurp brightnessctl"
+FS_PKGS_CD_UI_XFCE="xfce4 xorg accountsservice libbsd libmd"
+FS_PKGS_CD_UI_LIGHTDM_GTK="lightdm lightdm-gtk-greeter"

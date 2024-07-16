@@ -87,8 +87,8 @@ nmtui connect
 # try finding emmc
 MMCDEV="$(ls /dev/mmcblk* | grep -F boot0 | sed 's/boot0//')"
 
-. $CADMIUMROOT/config
-. $CADMIUMROOT/fs/$ROOTFS/info
+source $CADMIUMROOT/config
+source $CADMIUMROOT/fs/$ROOTFS/info
 
 # try finding out bootloader
 BOOTFW=unknown
@@ -133,16 +133,66 @@ if [ $INSTMED != this ]; then
 	sleep 1
 
 	dd if=/dev/disk/by-partlabel/SDKernelA of=/dev/disk/by-partlabel/MMCKernelA
-	case "$FILESYSTEM" in
+
+# if [$ROOTFS == "arch"] then
+# 		# encryption?
+# 		echo "Would you like to encrypt the root partition?"
+# 		echo "Y/N"
+
+# 		opt2=inv
+# 		until [ "$opt2" != "inv" ]; do
+# 			read -p ": " opt2
+# 		done
+
+# 		if [$opt2 == "y" | $opt2 == "Y"] then
+# 			cryptsetup luksFormat $ROOTPART
+# 			cryptsetup open $ROOTPART cryptcadmium
+# 			ROOTPART=/dev/mapper/cryptcadmium
+# 		fi
+# fi
+
+	# Choose the filesystem
+	echo "Which filesystem would you like to use for the root partition?"
+	echo "1: F2FS"
+	echo "2: EXT4"
+	echo "3: BTRFS"
+	
+	opt3=inv
+	until [ "$opt3" != "inv" ]; do
+		read -p ": " opt3
+	done
+
+	case $opt3 in
+		1) ROOTFILESYSTEM="f2fs" ;;
+		2) ROOTFILESYSTEM="ext4" ;;
+		3) ROOTFILESYSTEM="btrfs" ;;
+	esac
+
+	case "$ROOTFILESYSTEM" in
 		f2fs)
 			mkfs.f2fs -f $ROOTPART -t 0
+			mount -o compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime $ROOTPART /mnt
 		;;
 		ext4)
 			mkfs.ext4 -F $ROOTPART
+			tune2fs -O fast_commit $ROOTPART
+			mount $ROOTPART /mnt
+		;;
+		btrfs)
+			$FS_INST_PKG $FS_PKG_BTRFS
+			mkfs.btrfs -f $ROOTPART
+			mount $ROOTPART /mnt
+			btrfs subvolume create /mnt/.system
+			btrfs subvolume create /mnt/.system/root
+			btrfs subvolume create /mnt/.system/home
+			btrfs subvolume create /mnt/.snapshots
+			umount /mnt
+			mount -o compress=zstd:6,subvol=.system/root $ROOTPART /mnt
+			mount --mkdir -o compress=zstd:6,subvol=.system/home $ROOTPART /mnt/home
+			mount --mkdir -o compress=zstd:6,subvol=.snapshots $ROOTPART /mnt/.snapshots
 		;;
 	esac
 
-	mount $ROOTPART /mnt
 	DESTDIR=/mnt
 
 	if [ "$ROOTFS" = "arch" ]; then
@@ -184,7 +234,7 @@ if [ "$FS_HAS_OOBE" = "false" ]; then
 		echo "Enter root password:"
 	done
 
-	read -p "Enter username, no spaces or big letters: "
+	read -p "Enter your username:  REMINDER: no spaces or capital letters: "
 	$chroot $DESTDIR useradd -G "$FS_USERGROUPS" -s /bin/bash -m $REPLY
 
 	echo "Enter user password:"
@@ -271,6 +321,11 @@ if [ "$FS_HAS_OOBE" = "false" ]; then
 					;;
 				kde)
 					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_KDE
+					;;
+				xfce)
+					# TODO: add xfce packages to non-arch distros info files
+					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_XFCE $FS_PKGS_CD_UI_LIGHTDM_GTK
+					# TODO: use sed to edit the lightdm config to enable the greeter 
 					;;
 			esac
 			cp -r $CADMIUMROOT/fs/ucm/* $DESTDIR/usr/share/alsa/ucm2/conf.d/

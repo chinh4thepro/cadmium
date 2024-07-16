@@ -1,14 +1,81 @@
 #!/bin/bash
 CADMIUMROOT="$(dirname $(realpath $0))"
 
-source "$CADMIUMROOT/config"
+
+if [ "$ARCHITECTURE" == "" ]; 
+then
+	echo "Which architecture would you like to build for?"
+	echo "1: arm"
+	echo "2: arm64"
+	
+	arc=inv
+	until [ "$arc" != "inv" ]; do
+		read -p ": " arc
+	done
+	case $arc in 
+		1) ARCHITECTURE="arm";;
+		2) ARCHITECTURE="arm64";;
+	esac
+fi
+
+case $ARCHITECTURE in 
+	arm) 
+		export ARCH="arm";
+		export FLAV="arm32-chromebook"
+	;;
+	arm64) 
+		export ARCH="arm64";
+		export FLAV="arm64-chromebook"
+	;;
+esac
+
 source "$CADMIUMROOT/flavor/$FLAV"
+
+if [ "$RFILESYSTEM" == "" ]
+then
+	# Choose the filesystem
+	echo "Which RootFS would you like to build?"
+	echo "1: Arch"
+	echo "2: Debian"
+	echo "3: Void"
+	echo "4: Void-Musl"
+
+	rfs=inv
+	until [ "$rfs" != "inv" ]; do
+		read -p ": " rfs
+	done
+
+	case $rfs in 
+		1) RFILESYSTEM="arch";;
+		2) RFILESYSTEM="debian";;
+		3) RFILESYSTEM="void";;
+		4) RFILESYSTEM="void-musl";;
+	esac
+fi
+
+case $RFILESYSTEM in
+	arch) 
+		source $CADMIUMROOT/cadmium-configs/$ARCH/config-arch;
+		export RFILESYSTEM="arch"
+	;;
+	debian)
+		source $CADMIUMROOT/cadmium-configs/$ARCH/config-debian;
+		export RFILESYSTEM="debian"
+	;;
+	void) 
+		source $CADMIUMROOT/cadmium-configs/$ARCH/config-void;
+		export RFILESYSTEM="void"
+	;;
+	void-musl)
+		source $CADMIUMROOT/cadmium-configs/$ARCH/config-void-musl;
+		export RFILESYSTEM="void-musl"
+	;;
+esac
 
 set -x
 set -e
 
 sleep 1 # let's give user time if they commit a typo
-
 # Usage:
 # build-all <device>
 # build-all <file> <size>
@@ -35,16 +102,6 @@ fi
 source "$CADMIUMROOT/bootfw/$BOOTFW/prepare_parts"
 
 "$CADMIUMROOT/kernel/build"
-
-# TODO: move to bootfw/prepare_parts
-case "$FILESYSTEM" in
-	f2fs)
-		mkfs.f2fs -f "$ROOTPART"
-	;;
-	ext4)
-		mkfs.ext4 -F "$ROOTPART"
-	;;
-esac
 
 function umount_root() {
 	echo "Cleaning up..."
@@ -73,5 +130,6 @@ losetup -d "$DEVICE" 2>/dev/null || true
 
 sync # just to be sure
 
-echo "Done!"
 [ "$IN_RAM" = true ] && echo "Don't forget to umount $CADMIUMROOT/tmp"
+
+echo "Done!"
