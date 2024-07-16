@@ -60,7 +60,6 @@ cp -r "$CADMIUMROOT/fs/install" "$DESTDIR/root/install"
 cp -r "$CADMIUMROOT/cadmium-configs/$ARCH/config-$RFILESYSTEM" "$DESTDIR/CdFiles/config"
 # echo "export ARCH_ALARM=$ARCH_ALARM" >> "$DESTDIR/CdFiles/config"
 
-
 # install qcom binaries for lazor
 # TODO: trogdor units with lte modem probably wont work
 mkdir -p "$DESTDIR/lib/firmware/rmtfs"
