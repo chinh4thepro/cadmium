@@ -4,7 +4,7 @@ env:
   ROOTFILESYSTEM: ext4
 jobs:
   build-debian-arm-64:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: set up environment
@@ -14,19 +14,19 @@ jobs:
           sudo apt update
           sudo apt install -y libunwind-dev
           sudo apt build-dep linux
-          sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
-          
+          sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4
+
       - name: build arm64-debian
 
-        env: 
+        env:
           RFILESYSTEM: debian
-          ARCHITECTURE: arm64     
-      
+          ARCHITECTURE: arm64
+
         run: |
           ls
           cp cadmium-configs/arm64/config-debian config
           sudo -E ./build-all arm64-debian.img 2G
-       
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -44,14 +44,14 @@ jobs:
           sudo apt update
           sudo apt install -y libunwind-dev
           sudo apt build-dep linux
-          sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4   
-          
+          sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4
+
       - name: build arm32-debian
-        
-        env: 
+
+        env:
           RFILESYSTEM: debian
           ARCHITECTURE: arm
-          
+
         run: |
           ls
           cp cadmium-configs/arm/config-debian config
@@ -73,14 +73,14 @@ jobs:
           sudo apt update
           sudo apt install -y libunwind-dev
           sudo apt build-dep linux
-          sudo apt install arch-install-scripts gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
-          
+          sudo apt install arch-install-scripts gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4
+
       - name: build arm64-arch
 
-        env: 
+        env:
           RFILESYSTEM: arch
           ARCHITECTURE: arm64
-      
+
         run: |
           ls
           cp cadmium-configs/arm64/config-arch config
@@ -102,14 +102,14 @@ jobs:
           sudo apt update
           sudo apt install -y libunwind-dev
           sudo apt build-dep linux
-          sudo apt install arch-install-scripts gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
-          
+          sudo apt install arch-install-scripts gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4
+
       - name: build arm32-arch
-        
-        env: 
+
+        env:
           RFILESYSTEM: arch
           ARCHITECTURE: arm
-          
+
         run: |
           ls
           cp cadmium-configs/arm/config-arch config
@@ -118,120 +118,178 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: arm32-arch
-          path: arm32-arch.img   
+          path: arm32-arch.img
 
   build-void-arm-64:
-   runs-on: ubuntu-latest
-   steps:
-     - uses: actions/checkout@v4
-     - name: set up environment
-       run: |
-         cd $GITHUB_WORKSPACE
-          sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
-          sudo apt update
-          sudo apt install -y libunwind-dev
-          sudo apt build-dep linux
-          sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
-         
-     - name: build arm64-void
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: set up environment
+        run: |
+          cd $GITHUB_WORKSPACE
+           sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
+           sudo apt update
+           sudo apt install -y libunwind-dev
+           sudo apt build-dep linux
+           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4
 
-       env: 
+      - name: build arm64-void
+
+        env:
           RFILESYSTEM: void
           ARCHITECTURE: arm64
-     
-       run: |
-         ls
-         cp cadmium-configs/arm64/config-void config
-         sudo -E ./build-all arm64-void.img 3G
-     - name: Upload artifacts
-       uses: actions/upload-artifact@v4
-       with:
-         name: arm64-void
-         path: arm64-void.img    
+
+        run: |
+          ls
+          cp cadmium-configs/arm64/config-void config
+          sudo -E ./build-all arm64-void.img 3G
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: arm64-void
+          path: arm64-void.img
 
   build-void-arm-32:
-   runs-on: ubuntu-latest
-   steps:
-     - uses: actions/checkout@v4
-     - name: set up environment
-       run: |
-         cd $GITHUB_WORKSPACE
-          sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
-          sudo apt update
-          sudo apt install -y libunwind-dev
-          sudo apt build-dep linux
-          sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
-         
-     - name: build arm32-void
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: set up environment
+        run: |
+          cd $GITHUB_WORKSPACE
+           sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
+           sudo apt update
+           sudo apt install -y libunwind-dev
+           sudo apt build-dep linux
+           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4
 
-       env: 
+      - name: build arm32-void
+
+        env:
           RFILESYSTEM: void
           ARCHITECTURE: arm
-     
-       run: |
-         ls
-         cp cadmium-configs/arm/config-void config
-         sudo -E ./build-all arm32-void.img 3G
-     - name: Upload artifacts
-       uses: actions/upload-artifact@v4
-       with:
-         name: arm32-void
-         path: arm32-void.img
+
+        run: |
+          ls
+          cp cadmium-configs/arm/config-void config
+          sudo -E ./build-all arm32-void.img 3G
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: arm32-void
+          path: arm32-void.img
 
   build-void-musl-arm-64:
-   runs-on: ubuntu-latest
-   steps:
-     - uses: actions/checkout@v4
-     - name: set up environment
-       run: |
-         cd $GITHUB_WORKSPACE
-          sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
-          sudo apt update
-          sudo apt install -y libunwind-dev
-          sudo apt build-dep linux
-          sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
-         
-     - name: build arm64-void-musl
-       
-       env: 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: set up environment
+        run: |
+          cd $GITHUB_WORKSPACE
+           sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
+           sudo apt update
+           sudo apt install -y libunwind-dev
+           sudo apt build-dep linux
+           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4
+
+      - name: build arm64-void-musl
+
+        env:
           RFILESYSTEM: void-musl
           ARCHITECTURE: arm64
-       
-       run: |
-         ls
-         cp cadmium-configs/arm64/config-void-musl config
-         sudo -E ./build-all arm64-void-musl.img 3G
-     - name: Upload artifacts
-       uses: actions/upload-artifact@v4
-       with:
-         name: arm64-void-musl
-         path: arm64-void-musl.img    
+
+        run: |
+          ls
+          cp cadmium-configs/arm64/config-void-musl config
+          sudo -E ./build-all arm64-void-musl.img 3G
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: arm64-void-musl
+          path: arm64-void-musl.img
 
   build-void-musl-arm-32:
-   runs-on: ubuntu-latest
-   steps:
-     - uses: actions/checkout@v4
-     - name: set up environment
-       run: |
-         cd $GITHUB_WORKSPACE
-          sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
-          sudo apt update
-          sudo apt install -y libunwind-dev
-          sudo apt build-dep linux
-          sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4  
-         
-     - name: build arm32-void-musl
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: set up environment
+        run: |
+          cd $GITHUB_WORKSPACE
+           sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
+           sudo apt update
+           sudo apt install -y libunwind-dev
+           sudo apt build-dep linux
+           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4
 
-       env: 
+      - name: build arm32-void-musl
+
+        env:
           RFILESYSTEM: void-musl
           ARCHITECTURE: arm
-     
-       run: |
-         ls
-         cp cadmium-configs/arm/config-void-musl config
-         sudo -E ./build-all arm32-void-musl.img 3G
-     - name: Upload artifacts
-       uses: actions/upload-artifact@v4
-       with:
-         name: arm32-void-musl
-         path: arm32-void-musl.img   
+
+        run: |
+          ls
+          cp cadmium-configs/arm/config-void-musl config
+          sudo -E ./build-all arm32-void-musl.img 3G
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: arm32-void-musl
+          path: arm32-void-musl.img
+
+  build-alpine-64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: set up environment
+        run: |
+          cd $GITHUB_WORKSPACE
+           sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
+           sudo apt update
+           sudo apt install -y libunwind-dev
+           sudo apt build-dep linux
+           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4
+
+      - name: build arm64-alpine
+
+        env:
+          RFILESYSTEM: alpine
+          ARCHITECTURE: arm64
+
+        run: |
+          ls
+          cp cadmium-configs/arm64/config-alpine config
+          sudo -E ./build-all arm64-alpine.img 3G
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: arm64-alpine
+          path: arm64-alpine.img
+
+  build-alpine-32:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: set up environment
+        run: |
+          cd $GITHUB_WORKSPACE
+           sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
+           sudo apt update
+           sudo apt install -y libunwind-dev
+           sudo apt build-dep linux
+           sudo apt install gcc-arm-linux-gnueabihf libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static gcc-aarch64-linux-gnu debootstrap binutils-aarch64-linux-gnu git u-boot-tools binfmt-support lz4
+
+      - name: build arm32-alpine
+
+        env:
+          RFILESYSTEM: alpine
+          ARCHITECTURE: arm
+
+        run: |
+          ls
+          cp cadmium-configs/arm/config-alpine config
+          sudo -E ./build-all arm32-alpine.img 3G
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: arm32-alpine
+          path: arm32-alpine.img
