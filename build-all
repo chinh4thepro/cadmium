@@ -119,7 +119,7 @@ source "$CADMIUMROOT/bootfw/$BOOTFW/prepare_parts"
 
 function umount_root() {
 	echo "Cleaning up..."
-	umount "$CADMIUMROOT/tmp/root"
+	umount -R "$CADMIUMROOT/tmp/root"
 }
 
 mkdir -p "$CADMIUMROOT/tmp/root"
