@@ -37,4 +37,4 @@ $chroot $DESTDIR $qemu rc-update add syslog boot
 $chroot $DESTDIR $qemu rc-update add mount-ro shutdown
 $chroot $DESTDIR $qemu rc-update add killprocs shutdown
 $chroot $DESTDIR $qemu rc-update add savecache shutdown
-$chroot $DESTDIR $qemu rc-update add NetworkManager default
+$chroot $DESTDIR $qemu rc-update add networkmanager default
