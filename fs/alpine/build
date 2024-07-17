@@ -41,5 +41,3 @@ $chroot $DESTDIR $qemu rc-update add mount-ro shutdown
 $chroot $DESTDIR $qemu rc-update add killprocs shutdown
 $chroot $DESTDIR $qemu rc-update add savecache shutdown
 $chroot $DESTDIR $qemu rc-update add networkmanager default
-
-$chroot $DESTDIR $qemu setup-devd udev
