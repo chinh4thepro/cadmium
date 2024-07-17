@@ -21,7 +21,7 @@ $qemu $CADMIUMROOT/tmp/sbin/apk.static -X $MIRROR/latest-stable/main -U --allow-
 sudo mount -o bind /dev $DESTDIR/dev
 mkdir -p $DESTDIR/etc/apk
 echo "$MIRROR/latest-stable/main" > $DESTDIR/etc/apk/repositories
-echo "$MIRROR/latest-stable/community" > $DESTDIR/etc/apk/repositories
+echo "$MIRROR/latest-stable/community" >> $DESTDIR/etc/apk/repositories
 cp --dereference /etc/resolv.conf $DESTDIR/etc/resolv.conf
 
 $chroot $DESTDIR $qemu apk add networkmanager networkmanager-wifi networkmanager-tui networkmanager-cli
