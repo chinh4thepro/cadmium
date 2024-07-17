@@ -15,6 +15,6 @@ if [ ! -f apk-tools-static-${ALPINEAPKVER}.apk ]; then
     rm apk-tools-static-${ALPINEAPKVER}.apk
     curl -LO $MIRROR/latest-stable/main/${ARCH_ALPINE}/apk-tools-static-${ALPINEAPKVER}.apk
 fi
-tar -xvzf apk-tools-static-*.apk -C $CADMIUMROOT/tmp
+tar -xvzf apk-tools-static-*.apk -C ./tmp
 
-$qemu $CADMIUMROOT/tmp/sbin/apk.static $MIRROR/latest-stable/main -U --allow-untrusted -p $CADMIUMROOT --initdb add alpine-base
+$qemu ./tmp/sbin/apk.static $MIRROR/latest-stable/main -U --allow-untrusted -p $CADMIUMROOT --initdb add alpine-base
