@@ -8,12 +8,12 @@ DESTDIR="$1"
 . $CADMIUMROOT/config
 
 MIRROR="http://dl-cdn.alpinelinux.org/alpine"
-ALPINEAPKVER=$(curl -s $MIRROR/latest-stable/main/$ALPINE_ARCH/ | grep "apk-tools-static" | grep -oP '<a href="[^"]+">([^<]+)' | sed 's/<a href="[^"]\+">//' | sed 's/apk-tools-static-//' | sed 's/.apk//')
+ALPINEAPKVER=$(curl -s $MIRROR/latest-stable/main/$ARCH_ALPINE/ | grep "apk-tools-static" | grep -oP '<a href="[^"]+">([^<]+)' | sed 's/<a href="[^"]\+">//' | sed 's/apk-tools-static-//' | sed 's/.apk//')
 
 mkdir -p "$CADMIUMROOT/tmp"
 if [ ! -f apk-tools-static-${ALPINEAPKVER}.apk ]; then
     rm apk-tools-static-${ALPINEAPKVER}.apk
-    curl -LO $MIRROR/latest-stable/main/${ALPINE_ARCH}/apk-tools-static-${ALPINEAPKVER}.apk
+    curl -LO $MIRROR/latest-stable/main/${ARCH_ALPINE}/apk-tools-static-${ALPINEAPKVER}.apk
 fi
 tar -xvzf apk-tools-static-*.apk -C $CADMIUMROOT/tmp
 
