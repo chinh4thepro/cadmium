@@ -22,3 +22,18 @@ sudo mount -o bind /dev $DESTDIR/dev
 mkdir -p $DESTDIR/etc/apk
 echo "$MIRROR/latest-stable/main" > $DESTDIR/etc/apk/repositories
 echo "$MIRROR/latest-stable/community" > $DESTDIR/etc/apk/repositories
+
+$chroot $DESTDIR $qemu apk add networkmanager networkmanager-wifi networkmanager-tui networkmanager-cli
+$chroot $DESTDIR $qemu rc-update add devfs sysinit
+$chroot $DESTDIR $qemu rc-update add dmesg sysinit
+$chroot $DESTDIR $qemu rc-update add mdev sysinit
+$chroot $DESTDIR $qemu rc-update add hwclock boot
+$chroot $DESTDIR $qemu rc-update add modules boot
+$chroot $DESTDIR $qemu rc-update add sysctl boot
+$chroot $DESTDIR $qemu rc-update add hostname boot
+$chroot $DESTDIR $qemu rc-update add bootmisc boot
+$chroot $DESTDIR $qemu rc-update add syslog boot
+$chroot $DESTDIR $qemu rc-update add mount-ro shutdown
+$chroot $DESTDIR $qemu rc-update add killprocs shutdown
+$chroot $DESTDIR $qemu rc-update add savecache shutdown
+$chroot $DESTDIR $qemu rc-update add NetworkManager default
