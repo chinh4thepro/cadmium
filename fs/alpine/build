@@ -24,7 +24,7 @@ echo "$MIRROR/latest-stable/main" > $DESTDIR/etc/apk/repositories
 echo "$MIRROR/latest-stable/community" >> $DESTDIR/etc/apk/repositories
 cp --dereference /etc/resolv.conf $DESTDIR/etc/resolv.conf
 
-$chroot $DESTDIR $qemu apk add networkmanager networkmanager-wifi networkmanager-tui networkmanager-cli
+$chroot $DESTDIR $qemu apk add networkmanager networkmanager-wifi networkmanager-tui networkmanager-cli wpa-supplicant
 $chroot $DESTDIR $qemu rc-update add devfs sysinit
 $chroot $DESTDIR $qemu rc-update add dmesg sysinit
 $chroot $DESTDIR $qemu rc-update add mdev sysinit
