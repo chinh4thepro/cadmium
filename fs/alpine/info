@@ -6,7 +6,6 @@ FS_HAS_OOBE="false"
 FS_INST_PKG="apk add"
 FS_UPDATE="apk update"
 FS_SETUP_DE="setup-desktop"
-FS_SETUP_UDEV="setup-devd udev"
 FS_USERGROUPS="wheel,video,audio,input"
 
 # packages
