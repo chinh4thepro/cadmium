@@ -7,17 +7,14 @@ DESTDIR="$1"
 
 . $CADMIUMROOT/config
 
-ALPINEVER=$(curl --silent https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/aarch64/latest-releases.yaml | awk '/version/' | tail -1 | awk '{print $2}')
+MIRROR="http://dl-cdn.alpinelinux.org/alpine"
+ALPINEAPKVER=$(curl -s $MIRROR/latest-stable/main/$ALPINE_ARCH/ | grep "apk-tools-static" | grep -oP '<a href="[^"]+">([^<]+)' | sed 's/<a href="[^"]\+">//' | sed 's/apk-tools-static-//' | sed 's/.apk//')
 
 mkdir -p "$CADMIUMROOT/tmp"
-ROOTFS_TAR="https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/$ARCH_ALPINE/alpine-minirootfs-$ALPINEVER-$ARCH_ALPINE.tar.gz"
-if [ ! -f "$CADMIUMROOT/tmp/alpine-minirootfs-$ALPINEVER-$ARCH_ALPINE.tar.gz" ]; then
-	rm $CADMIUMROOT/tmp/alpine-minirootfs-$ALPINEVER-$ARCH_ALPINE.tar.gz || true
-	wget "$ROOTFS_TAR" -O $CADMIUMROOT/tmp/alpine-minirootfs-$ALPINEVER-$ARCH_ALPINE.tar.gz
+if [ ! -f apk-tools-static-${ALPINEAPKVER}.apk ]; then
+    rm apk-tools-static-${ALPINEAPKVER}.apk
+    curl -LO $MIRROR/latest-stable/main/${ALPINE_ARCH}/apk-tools-static-${ALPINEAPKVER}.apk
 fi
-tar xfp $CADMIUMROOT/tmp/alpine-minirootfs-$ALPINEVER-$ARCH_ALPINE.tar.gz -C $DESTDIR
+tar -xvzf apk-tools-static-*.apk -C $CADMIUMROOT/tmp
 
-$chroot $DESTDIR $qemu /sbin/apk add openrc
-$chroot $DESTDIR $qemu /sbin/apk add networkmanager networkmanager-cli networkmanager-tui networkmanager-wifi
-$chroot $DESTDIR $qemu setup-devd udev
-$chroot $DESTDIR $qemu rc-update add networkmanager default
+$CADMIUMROOT/tmp/apk.static $MIRROR/latest-stable/main -U --allow-untrusted -p $CADMIUMROOT --initdb add alpine-base
