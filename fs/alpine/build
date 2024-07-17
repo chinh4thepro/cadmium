@@ -17,4 +17,4 @@ if [ ! -f apk-tools-static-${ALPINEAPKVER}.apk ]; then
 fi
 tar -xvzf apk-tools-static-*.apk -C $CADMIUMROOT/tmp
 
-$CADMIUMROOT/tmp/sbin/apk.static $MIRROR/latest-stable/main -U --allow-untrusted -p $CADMIUMROOT --initdb add alpine-base
+$qemu $CADMIUMROOT/tmp/sbin/apk.static $MIRROR/latest-stable/main -U --allow-untrusted -p $CADMIUMROOT --initdb add alpine-base
