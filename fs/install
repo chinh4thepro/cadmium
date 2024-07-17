@@ -272,8 +272,6 @@ if [ "$FS_HAS_OOBE" = "false" ]; then
 						$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_PHOSH
 						$chroot $DESTDIR rc-update enable display-manager default
 						$chroot $DESTDIR sed -i 's/xdm/gdm/' $DESTDIR/etc/conf.d/display-manager
-					fi
-
 					else
 					    $chroot $DESTDIR systemctl enable phosh
 					fi
@@ -283,6 +281,11 @@ if [ "$FS_HAS_OOBE" = "false" ]; then
 				sway)
 					# TODO: config
 					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_SWAY
+
+					if [ "$ROOTFS" = "alpine" ]; then
+					    rc-update add elogind
+						rc-update add polkit
+					fi
 
 					MODKEY="invalid"
 					until [ "$MODKEY" != "invalid" ]; do
@@ -329,14 +332,24 @@ if [ "$FS_HAS_OOBE" = "false" ]; then
 					echo 'tty | grep tty1 && exec sway' >> $DESTDIR/home/$USERNAME/.bashrc
 					;;
 				gnome)
-					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_GNOME
+				    if [ "$ROOTFS" != "alpine" ]; then
+						$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_GNOME
+					fi
+					if [ "$ROOTFS" = "alpine" ]; then
+					   $chroot $DESTDIR $FS_SETUP_DE $FS_PKGS_CD_UI_GNOME
+					fi
 					if [ "$ROOTFS" = "gentoo" ]; then
 					   $chroot $DESTDIR rc-update enable display-manager default
 					   $chroot $DESTDIR sed -i 's/xdm/gdm/' $DESTDIR/etc/conf.d/display-manager
 					fi
 					;;
 				kde)
-					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_KDE
+				    if [ "$ROOTFS" != "alpine" ]; then
+						$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_KDE
+					fi
+					if [ "$ROOTFS" = "alpine" ]; then
+					   $chroot $DESTDIR $FS_SETUP_DE $FS_PKGS_CD_UI_KDE
+					fi
 					if [ "$ROOTFS" = "gentoo" ]; then
 					   $chroot $DESTDIR rc-update enable display-manager default
 					   $chroot $DESTDIR sed -i 's/xdm/sddm/' $DESTDIR/etc/conf.d/display-manager
@@ -345,12 +358,19 @@ if [ "$FS_HAS_OOBE" = "false" ]; then
 				xfce)
 					# TODO: add xfce packages to non-arch distros info files
 					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_XFCE $FS_PKGS_CD_UI_LIGHTDM_GTK
+					# TODO: find a better way to do this lmao
+					if [ "$ROOTFS" != "gentoo" ] OR [ "$ROOTFS" != "alpine" ] OR [ "$ROOTFS" != "void" ] OR [ "$ROOTFS" != "void-musl" ]; then
+					   systemctl enable lightdm
+					fi
+					if [ "$ROOTFS" = "alpine" ]; then
+					   $chroot $DESTDIR rc-update add lightdm
+					   $chroot $DESTDIR rc-update add elogind
+					fi
 					if [ "$ROOTFS" = "gentoo" ]; then
-					   $chroot $DESTDIR rc-update enable display-manager default
+					   $chroot $DESTDIR rc-update add display-manager default
 					   $chroot $DESTDIR sed -i 's/xdm/lightdm/' $DESTDIR/etc/conf.d/display-manager
 					fi
 					$chroot $DESTDIR sed -i 's/\#greeter-session=example-gtk-gnome/greeter-session=lightdm-gtk-greeter/' $DESTDIR/etc/lightdm/lightdm.conf
-					$chroot $DESTDIR systemctl enable lightdm
 					;;
 			esac
 			cp -r $CADMIUMROOT/fs/ucm/* $DESTDIR/usr/share/alsa/ucm2/conf.d/

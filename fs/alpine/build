@@ -18,12 +18,12 @@ fi
 tar -xvzf apk-tools-static-*.apk -C $CADMIUMROOT/tmp
 
 $qemu $CADMIUMROOT/tmp/sbin/apk.static -X $MIRROR/latest-stable/main -U --allow-untrusted -p $DESTDIR --initdb add alpine-base bash
+$qemu $CADMIUMROOT/tmp/sbin/apk.static -X $MIRROR/latest-stable/community -U --allow-untrusted -p $DESTDIR --initdb add networkmanager networkmanager-wifi networkmanager-tui networkmanager-cli
 sudo mount -o bind /dev $DESTDIR/dev
 mkdir -p $DESTDIR/etc/apk
 echo "$MIRROR/latest-stable/main" > $DESTDIR/etc/apk/repositories
 echo "$MIRROR/latest-stable/community" > $DESTDIR/etc/apk/repositories
 
-$chroot $DESTDIR $qemu apk add networkmanager networkmanager-wifi networkmanager-tui networkmanager-cli
 $chroot $DESTDIR $qemu rc-update add devfs sysinit
 $chroot $DESTDIR $qemu rc-update add dmesg sysinit
 $chroot $DESTDIR $qemu rc-update add mdev sysinit
