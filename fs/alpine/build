@@ -12,7 +12,7 @@ ALPINEAPKVER=$(curl -s $MIRROR/latest-stable/main/$ARCH_ALPINE/ | grep "apk-tool
 
 mkdir -p "$CADMIUMROOT/tmp"
 if [ ! -f apk-tools-static-${ALPINEAPKVER}.apk ]; then
-    rm apk-tools-static-${ALPINEAPKVER}.apk
+    rm apk-tools-static-${ALPINEAPKVER}.apk || true
     curl -LO $MIRROR/latest-stable/main/${ARCH_ALPINE}/apk-tools-static-${ALPINEAPKVER}.apk
 fi
 tar -xvzf apk-tools-static-*.apk -C $CADMIUMROOT/tmp
