@@ -27,7 +27,7 @@ mount -o bind /dev $DESTDIR/dev
 mount -t proc none ${chroot_dir}/proc
 mount -o bind /sys ${chroot_dir}/sys
 
-$chroot $DESTDIR $qemu apk add networkmanager networkmanager-wifi networkmanager-tui networkmanager-cli wpa_supplicant eudev udev-init-scripts apk add util-linux pciutils hwdata-pci usbutils hwdata-usb coreutils binutils findutils grep iproute2
+$chroot $DESTDIR $qemu apk add networkmanager networkmanager-wifi networkmanager-tui networkmanager-cli wpa_supplicant eudev udev-init-scripts util-linux pciutils hwdata-pci usbutils hwdata-usb coreutils binutils findutils grep iproute2
 $chroot $DESTDIR $qemu rc-update add devfs sysinit
 $chroot $DESTDIR $qemu rc-update add dmesg sysinit
 $chroot $DESTDIR $qemu rc-update add mdev sysinit
