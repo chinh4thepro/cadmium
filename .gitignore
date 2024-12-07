@@ -1,5 +1,4 @@
 tmp/*
-/config
 vmlinux.kpart
 vmlinux.kpart.mmc
 kernel-*.*
