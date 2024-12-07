@@ -128,7 +128,7 @@ if [ $INSTMED != this ]; then
 			parted --script $INTDEV mklabel gpt >/dev/null 2>&1 || true # ???
 			cgpt create $INTDEV
 			cgpt add -i 1 -t kernel -b $(expr 8192 + $EMMC_OFFSET)   -s 65536 -l IntKernelA -S 1 -T 2 -P 10  ${INTDEV}
-			cgpt add -i 2 -t kernel -b $(expr 73728 + $EMMC_OFFSET)  -s 65536 -l IntKernelB -S 0 -T 2 -P 5   ${INTDEV}	
+			cgpt add -i 2 -t kernel -b $(expr 73728 + $EMMC_OFFSET)  -s 65536 -l IntKernelB -S 0 -T 2 -P 5   ${INTDEV}
 			cgpt add -i 3 -t data   -b $(expr 139264 + $EMMC_OFFSET) -s $(expr $(cgpt show ${INTDEV} | grep 'Sec GPT table' | awk '{print $1}') - $(expr 139264 + $EMMC_OFFSET)) -l IntRoot ${INTDEV}
 
 			ROOTPART=/dev/disk/by-partlabel/IntRoot
@@ -277,8 +277,22 @@ if [ "$FS_HAS_OOBE" = "false" ]; then
 			case $UI_CHOICE in
 				phosh)
 					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_PHOSH
-					# TODO: non-systemd rootfses
-					$chroot $DESTDIR systemctl enable phosh
+
+					case "$FS_INIT" in
+					    systemd)
+							$chroot $DESTDIR systemctl enable phosh
+						;;
+						openrc)
+						    case "$FS" in
+								alpine)
+								    $chroot $DESTDIR rc-update add tinydm default
+									$chroot $DESTDIR rc-update add waked default
+									$chroot $DESTDIR tinydm-set-session -s /usr/share/wayland-sessions/phosh.desktop
+								;;
+							esac
+						;;
+					esac
+
 					echo "Input a digit-only user password:"
 					$chroot $DESTDIR passwd $USERNAME
 					;;
@@ -343,10 +357,24 @@ if [ "$FS_HAS_OOBE" = "false" ]; then
 					echo 'tty | grep tty1 && exec sway' >> $DESTDIR/home/$USERNAME/.bashrc
 					;;
 				gnome)
-					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_GNOME
+				    case "$FS" in
+						alpine)
+						    $chroot $DESTDIR $FS_SETUP_DE $FS_PKGS_CD_UI_GNOME
+						;;
+						*)
+						    $chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_GNOME
+						;;
+					esac
 					;;
 				kde)
-					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_KDE
+                    case "$FS" in
+				        alpine)
+	               	        $chroot $DESTDIR $FS_SETUP_DE $FS_PKGS_CD_UI_KDE
+				        ;;
+				        *)
+	               	        $chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_KDE
+				        ;;
+				    esac
 					;;
 				lomiri)
 					$chroot $DESTDIR $FS_INST_PKG $FS_PKGS_CD_UI_LOMIRI

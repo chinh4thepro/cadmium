@@ -7,6 +7,7 @@ FS_HAS_OOBE="false"
 FS_INST_PKG="apt install -y"
 FS_UPDATE="apt update && apt upgrade"
 FS_USERGROUPS="sudo,video,audio,render"
+FS_INIT="systemd"
 
 # packages:
 FS_PKGS_CD_BASE="vim network-manager debootstrap parted f2fs-tools libudev-dev build-essential git kmscube weston ssh htop qrtr-tools rmtfs pciutils ntpdate"

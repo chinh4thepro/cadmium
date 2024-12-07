@@ -1,0 +1,46 @@
+#!/bin/bash
+set -e
+
+CADMIUMROOT="$(dirname $(dirname $(dirname $(realpath $0))))"
+DESTDIR="$1"
+
+. $CADMIUMROOT/config
+
+MIRROR="http://dl-cdn.alpinelinux.org/alpine"
+ALPINEAPKVER=$(curl -s $MIRROR/latest-stable/main/$ARCH_ALPINE/ | grep "apk-tools-static" | grep -oP '<a href="[^"]+">([^<]+)' | sed 's/<a href="[^"]\+">//' | sed 's/apk-tools-static-//' | sed 's/.apk//')
+
+mkdir -p "$CADMIUMROOT/tmp"
+if [ ! -f apk-tools-static-${ALPINEAPKVER}.apk ]; then
+    rm apk-tools-static-${ALPINEAPKVER}.apk || true
+    curl -LO $MIRROR/latest-stable/main/${ARCH_ALPINE}/apk-tools-static-${ALPINEAPKVER}.apk
+fi
+tar -xvzf apk-tools-static-*.apk -C $CADMIUMROOT/tmp
+
+$qemu $CADMIUMROOT/tmp/sbin/apk.static -X $MIRROR/latest-stable/main -U --allow-untrusted -p $DESTDIR --initdb add alpine-base bash
+mkdir -p $DESTDIR/etc/apk
+echo "$MIRROR/latest-stable/main" > $DESTDIR/etc/apk/repositories
+echo "$MIRROR/latest-stable/community" >> $DESTDIR/etc/apk/repositories
+cp --dereference /etc/resolv.conf $DESTDIR/etc/resolv.conf
+
+mount -o bind /dev $DESTDIR/dev
+mount -t proc none ${chroot_dir}/proc
+mount -o bind /sys ${chroot_dir}/sys
+
+$chroot $DESTDIR $qemu apk add networkmanager networkmanager-wifi networkmanager-tui networkmanager-cli wpa_supplicant eudev udev-init-scripts util-linux pciutils hwdata-pci usbutils hwdata-usb coreutils binutils findutils grep iproute2
+$chroot $DESTDIR $qemu rc-update add devfs sysinit
+$chroot $DESTDIR $qemu rc-update add dmesg sysinit
+$chroot $DESTDIR $qemu rc-update add mdev sysinit
+$chroot $DESTDIR $qemu rc-update add hwclock boot
+$chroot $DESTDIR $qemu rc-update add modules boot
+$chroot $DESTDIR $qemu rc-update add sysctl boot
+$chroot $DESTDIR $qemu rc-update add hostname boot
+$chroot $DESTDIR $qemu rc-update add bootmisc boot
+$chroot $DESTDIR $qemu rc-update add syslog boot
+$chroot $DESTDIR $qemu rc-update add mount-ro shutdown
+$chroot $DESTDIR $qemu rc-update add killprocs shutdown
+$chroot $DESTDIR $qemu rc-update add savecache shutdown
+$chroot $DESTDIR $qemu rc-update add networkmanager default
+$chroot $DESTDIR $qemu rc-update add udev sysinit
+$chroot $DESTDIR $qemu rc-update add udev-trigger sysinit
+$chroot $DESTDIR $qemu rc-update add udev-settle sysinit
+$chroot $DESTDIR $qemu rc-update add udev-postmount default

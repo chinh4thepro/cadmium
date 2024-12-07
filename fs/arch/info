@@ -6,6 +6,7 @@ FS_HAS_OOBE="false"
 FS_INST_PKG="pacman -Syu --noconfirm"
 FS_UPDATE="pacman -Syu"
 FS_USERGROUPS="wheel,video,audio,input"
+FS_INIT="systemd"
 
 # packages
 FS_PKGS_CD_BASE="f2fs-tools git base-devel networkmanager sudo vim cgpt parted wget arch-install-scripts"

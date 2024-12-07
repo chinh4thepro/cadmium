@@ -3,5 +3,6 @@ export ARCH=arm
 export ARCH_UNAME=armv7l
 export ARCH_DEB=armhf
 export ARCH_ALARM=armv7
+export ARCH_ALPINE=armhf
 
 export LOADER=depthcharge
