@@ -38,7 +38,7 @@ echo ' root=PARTUUID=%U/PARTNROFF=1' >> cmdline.p2
 
 # https://github.com/archlinuxarm/PKGBUILDs/blob/master/core/linux-aarch64/PKGBUILD
 for B in veyron elm gru kukui trogdor; do
-	DTBS="$DTBS $(find arch/$ARCH/boot/dts -name \*${B}\*.dtb)"
+	DTBS="$DTBS $(find arch/$ARCH/boot/dts/* -name \*${B}\*.dtb)"
 done
 
 echo $DTBS | "$CADMIUMROOT/loader/depthcharge/generate_chromebook_its.sh" "$IMAGE" "$ARCH" "$COMPRESSION" > kernel.its
