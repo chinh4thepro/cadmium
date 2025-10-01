@@ -11,11 +11,9 @@ source "$CADMIUMROOT/flavor/$FLAV"
 
 mkdir -p "$DESTDIR"
 
-if [ "$ROOTFS" = "arch" ]; then
-	export chroot="arch-chroot"
-else
-	export chroot="chroot"
-fi
+
+export chroot="arch-chroot"
+
 
 if [ "$(date +'%V%y') $ROOTFS $ARCH" != "$(cat $CADMIUMROOT/tmp/cached-rootfs-info 2>/dev/null)" ]; then
 	rm -rf "$DESTDIR/"

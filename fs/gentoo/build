@@ -20,14 +20,6 @@ tar xpvf $CADMIUMROOT/tmp/stage3*.tar.xz --xattrs-include='*.*' --numeric-owner 
 
 cp --dereference /etc/resolv.conf $DESTDIR/etc/resolv.conf
 
-mount --bind /proc $DESTDIR/proc
-mount --rbind /sys $DESTDIR/sys
-mount --make-rslave $DESTDIR/sys
-mount --rbind /dev $DESTDIR/dev
-mount --make-rslave $DESTDIR/dev
-mount --bind /run $DESTDIR/run
-mount --make-slave $DESTDIR/run
-
 $chroot $DESTDIR $qemu /usr/bin/emerge-webrsync
 $chroot $DESTDIR $qemu /usr/bin/emerge --sync
 
