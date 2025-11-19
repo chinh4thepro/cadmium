@@ -1,14 +1,19 @@
 name: Build Image (Debian)
 
-on:
-  workflow_run:
-    workflows: ["CI"]
-    types: [completed]
-
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: test
-        run: echo "hi"
+      - name: Get kernel files
+        uses: ./.github/workflows/build-kernel.yml
+      
+      - name: Build image
+        run: |
+          env RELEASE=arm64-chromebook ./build-all ./cadmium-arm64-chromebook.img 8G
+          
+      - name: Upload Images  
+        uses: actions/upload-artifact@v5
+        with:
+          name: installer-images
+          path: cadmium-*.img

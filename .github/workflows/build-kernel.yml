@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build-kernel:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+
+      - uses: ./.github/actions/setup
+
+      - name: build kernel
+        run: |
+          kernel/build
+      
+      - uses: actions/upload-artifact@v5
+        with:
+          name: tmp
+          path: tmp/
+          
+      
