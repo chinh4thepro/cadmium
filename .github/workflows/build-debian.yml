@@ -2,7 +2,7 @@ name: Build Image (Debian)
 
 on:
   workflow_run:
-    workflows: ["Build Kernel"]
+    workflows: ["CI"]
     types: [completed]
 
 jobs:
