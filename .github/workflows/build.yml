@@ -17,13 +17,14 @@ jobs:
       - name: Setup environment
         run: |
           cd $GITHUB_WORKSPACE
-          sudo sed -i '/^deb /{p;s/^deb /deb-src /}' /etc/apt/sources.list
+          sudo sed -i '/deb-src/s/^# //' /etc/apt/sources.list && apt update
           sudo apt update
           sudo apt build-dep linux
           sudo apt install libarchive-tools curl wget f2fs-tools cgpt vboot-utils libncurses-dev gawk flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf qemu-user-static lld gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu llvm clang u-boot-tools debootstrap
 
   build-kernel:
     runs-on: ubuntu-latest
+    needs: setup-environment
 
     steps:
       - uses: actions/checkout@v4
