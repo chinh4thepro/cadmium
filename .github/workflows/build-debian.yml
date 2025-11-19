@@ -1,0 +1,14 @@
+name: Build Image (Debian)
+
+on:
+  workflow_run:
+    workflows: ["Build Kernel"]
+    types: [completed]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: test
+        run: echo "hi"
