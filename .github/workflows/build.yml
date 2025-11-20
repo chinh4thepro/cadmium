@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-debian:
+  build-kernel:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,7 +14,12 @@ jobs:
         with:
           submodules: 'true'
 
-      - name: build debian 
-        uses: ./.github/actions/workflows/build-debian.yml
+      - name: build kernel
+        uses: ./.github/actions/build/kernel
+
+  build-debian:
+    needs: build-kernel
+    uses: ./github/actions/build/rootfs/debian
+
     
       
