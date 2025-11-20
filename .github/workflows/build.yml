@@ -19,7 +19,7 @@ jobs:
 
   build-debian:
     needs: build-kernel
-    uses: ./.github/actions/build/rootfs/debian
+    uses: ./.github/actions/build/rootfs/debian/action.yml
 
     
       
