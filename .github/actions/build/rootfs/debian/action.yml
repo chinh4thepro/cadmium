@@ -7,10 +7,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Get kernel files
-        uses: ./.github/workflows/build-kernel.yml
-      
+    steps:      
       - name: Build image
         run: |
           env RELEASE=arm64-chromebook ./build-all ./cadmium-arm64-chromebook.img 8G
